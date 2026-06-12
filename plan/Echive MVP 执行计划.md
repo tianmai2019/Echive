@@ -80,13 +80,13 @@ MVP 不追求功能完整，而是优先证明：
 - [x] 配置 ESLint / Prettier
 - [x] 初始化 Prisma
 - [x] 使用第二版 Prisma Schema
-- [ ] 配置 PostgreSQL
-- [ ] 创建初始 migration
+- [x] 配置 PostgreSQL
+- [x] 创建初始 migration
 - [x] 封装 Prisma Client
 - [x] 建立基础 layout
 - [x] 建立左侧主导航
-- [ ] 建立统一 API response helper
-- [ ] 编写 seed 数据
+- [x] 建立统一 API response helper
+- [x] 编写 seed 数据
 
 ### 交付物
 
@@ -284,7 +284,7 @@ Home & Polish
 - [x] 安装 Tailwind CSS
 - [x] 安装和初始化 shadcn/ui
 - [x] 安装 Prisma
-- [ ] 配置 PostgreSQL 连接
+- [x] 配置 PostgreSQL 连接
 - [x] 落地 Prisma Schema 第二版
 - [x] 创建 `.env.example`
 - [x] 创建 Prisma Client 单例
@@ -308,8 +308,8 @@ Home & Polish
 ### Day 2：数据库
 
 - [x] 写入第二版 schema
-- [ ] 创建 migration
-- [ ] 创建 seed
+- [x] 创建 migration
+- [x] 创建 seed
 - [x] 封装 db client
 - [ ] 验证数据库连接
 
@@ -407,18 +407,22 @@ Home & Polish
 
 ## 10. 下一步
 
-Day 1 Foundation 已完成，下一步建议进入 Day 2：数据库与 Foundation 补强。
+Day 2 数据库与 Foundation 补强已完成可离线验证部分，下一步建议进入 Day 4：Idea API。
 
-Day 2 优先任务：
+Day 4 优先任务：
 
-- 配置 PostgreSQL 连接。
-- 创建初始 migration。
-- 创建 seed 数据。
-- 建立统一 API response helper。
-- 验证数据库连接。
+- `POST /api/ideas`
+- `GET /api/ideas`
+- `GET /api/ideas/:id`
+- `PATCH /api/ideas/:id`
+- API 输入验证和基础测试
+
+遗留环境事项：
+
+- 当前机器 Docker Desktop engine 未成功启动，尚未实际运行 PostgreSQL 容器、live migration 或 seed。
+- Docker 可用后需执行 `pnpm db:up`、`pnpm db:migrate -- --name init`、`pnpm db:seed` 完成数据库连接验证。
 
 实施前需要确认：
 
-- PostgreSQL 使用本地 Docker、已有数据库，还是远程数据库？
 - AI Provider 使用哪一家？
 - MVP 是否先跳过认证，使用固定 demo user？

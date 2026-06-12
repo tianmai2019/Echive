@@ -74,17 +74,17 @@ MVP 不追求功能完整，而是优先证明：
 
 ### 任务
 
-- [ ] 初始化 Next.js + TypeScript
-- [ ] 配置 Tailwind CSS
-- [ ] 配置 shadcn/ui
-- [ ] 配置 ESLint / Prettier
-- [ ] 初始化 Prisma
-- [ ] 使用第二版 Prisma Schema
+- [x] 初始化 Next.js + TypeScript
+- [x] 配置 Tailwind CSS
+- [x] 配置 shadcn/ui
+- [x] 配置 ESLint / Prettier
+- [x] 初始化 Prisma
+- [x] 使用第二版 Prisma Schema
 - [ ] 配置 PostgreSQL
 - [ ] 创建初始 migration
-- [ ] 封装 Prisma Client
-- [ ] 建立基础 layout
-- [ ] 建立左侧主导航
+- [x] 封装 Prisma Client
+- [x] 建立基础 layout
+- [x] 建立左侧主导航
 - [ ] 建立统一 API response helper
 - [ ] 编写 seed 数据
 
@@ -280,18 +280,18 @@ Home & Polish
 
 ### 6.1 项目初始化
 
-- [ ] 创建 Next.js + TypeScript 项目
-- [ ] 安装 Tailwind CSS
-- [ ] 安装和初始化 shadcn/ui
-- [ ] 安装 Prisma
+- [x] 创建 Next.js + TypeScript 项目
+- [x] 安装 Tailwind CSS
+- [x] 安装和初始化 shadcn/ui
+- [x] 安装 Prisma
 - [ ] 配置 PostgreSQL 连接
-- [ ] 落地 Prisma Schema 第二版
-- [ ] 创建 `.env.example`
-- [ ] 创建 Prisma Client 单例
-- [ ] 创建基础 layout
-- [ ] 创建左侧导航
-- [ ] 添加基础 README
-- [ ] 推送初始化代码到 GitHub 和 Gitee
+- [x] 落地 Prisma Schema 第二版
+- [x] 创建 `.env.example`
+- [x] 创建 Prisma Client 单例
+- [x] 创建基础 layout
+- [x] 创建左侧导航
+- [x] 添加基础 README
+- [x] 推送初始化代码到 GitHub 和 Gitee
 
 ---
 
@@ -299,26 +299,26 @@ Home & Polish
 
 ### Day 1：项目基础
 
-- [ ] 初始化 Next.js
-- [ ] 配置 TypeScript / Tailwind
-- [ ] 配置 ESLint / Prettier
-- [ ] 安装 Prisma
-- [ ] 添加 `.env.example`
+- [x] 初始化 Next.js
+- [x] 配置 TypeScript / Tailwind
+- [x] 配置 ESLint / Prettier
+- [x] 安装 Prisma
+- [x] 添加 `.env.example`
 
 ### Day 2：数据库
 
-- [ ] 写入第二版 schema
+- [x] 写入第二版 schema
 - [ ] 创建 migration
 - [ ] 创建 seed
-- [ ] 封装 db client
+- [x] 封装 db client
 - [ ] 验证数据库连接
 
 ### Day 3：布局
 
-- [ ] 建立 App Router 页面结构
-- [ ] 左侧导航
-- [ ] Home / Inbox / Projects / Tasks / Vault / Studio 空页面
-- [ ] 基础 UI 组件
+- [x] 建立 App Router 页面结构
+- [x] 左侧导航
+- [x] Home / Inbox / Projects / Tasks / Vault / Studio 空页面
+- [x] 基础 UI 组件
 
 ### Day 4：Idea API
 
@@ -400,15 +400,22 @@ Home & Polish
 4. 运行测试、类型检查、构建。
 5. 进行代码审查。
 6. 修复高优先级问题。
-7. 推送到 GitHub 和 Gitee。
+7. 更新本文档中的任务状态。
+8. 推送到 GitHub 和 Gitee。
 
 ---
 
 ## 10. 下一步
 
-下一步建议直接开始：
+Day 1 Foundation 已完成，下一步建议进入 Day 2：数据库与 Foundation 补强。
 
-> 初始化 Next.js + TypeScript + Tailwind + Prisma，并把第二版 Prisma Schema 落地。
+Day 2 优先任务：
+
+- 配置 PostgreSQL 连接。
+- 创建初始 migration。
+- 创建 seed 数据。
+- 建立统一 API response helper。
+- 验证数据库连接。
 
 实施前需要确认：
 

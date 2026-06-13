@@ -1,3 +1,5 @@
+import { NextResponse } from "next/server";
+
 interface ApiMeta {
   total?: number;
   page?: number;
@@ -53,7 +55,7 @@ export function successResponse<T>(
   data: T,
   options: ResponseOptions = {}
 ): Response {
-  return Response.json(createSuccessPayload(data), {
+  return NextResponse.json(createSuccessPayload(data), {
     status: options.status ?? 200,
     headers: options.headers,
   });
@@ -67,7 +69,7 @@ export function errorResponse(
   error: string,
   options: ResponseOptions = {}
 ): Response {
-  return Response.json(createErrorPayload(error), {
+  return NextResponse.json(createErrorPayload(error), {
     status: options.status ?? 500,
     headers: options.headers,
   });
@@ -78,7 +80,7 @@ export function paginatedResponse<T>(
   meta: Required<ApiMeta>,
   options: ResponseOptions = {}
 ): Response {
-  return Response.json(createSuccessPayload(data, meta), {
+  return NextResponse.json(createSuccessPayload(data, meta), {
     status: options.status ?? 200,
     headers: options.headers,
   });

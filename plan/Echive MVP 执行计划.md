@@ -98,29 +98,35 @@ MVP 不追求功能完整，而是优先证明：
 
 ## Milestone 2：Idea Flow
 
+### 当前状态
+
+已完成：第一周 Idea Flow 闭环，包括 Inbox、Quick Capture、Idea 列表、状态筛选、详情页，`POST /api/ideas`、`GET /api/ideas`、`GET /api/ideas/:id`、`PATCH /api/ideas/:id`，以及本地规则型 LLM Provider 的标题、摘要、澄清问题、nextAction 生成。澄清结果会保存 Conversation、Message 和 AIActionLog。
+
+下一步：进入第二周 Planning，基于已澄清的 Idea 创建/关联 Project，并生成 Task 建议。
+
 ### 目标
 
 完成想法输入和 AI 澄清。
 
 ### 任务
 
-- [ ] Inbox 页面
-- [ ] Quick Capture 输入框
-- [ ] Idea 列表
-- [ ] Idea 状态筛选
-- [ ] Idea 详情页
-- [ ] `POST /api/ideas`
-- [ ] `GET /api/ideas`
-- [ ] `GET /api/ideas/:id`
-- [ ] `PATCH /api/ideas/:id`
-- [ ] LLM Provider 封装
-- [ ] AI 生成标题
-- [ ] AI 生成摘要
-- [ ] AI 生成澄清问题
-- [ ] AI 生成 nextAction
-- [ ] `POST /api/ideas/:id/clarify`
-- [ ] 保存 Conversation / Message
-- [ ] 保存 AIActionLog
+- [x] Inbox 页面
+- [x] Quick Capture 输入框
+- [x] Idea 列表
+- [x] Idea 状态筛选
+- [x] Idea 详情页
+- [x] `POST /api/ideas`
+- [x] `GET /api/ideas`
+- [x] `GET /api/ideas/:id`
+- [x] `PATCH /api/ideas/:id`
+- [x] LLM Provider 封装
+- [x] AI 生成标题
+- [x] AI 生成摘要
+- [x] AI 生成澄清问题
+- [x] AI 生成 nextAction
+- [x] `POST /api/ideas/:id/clarify`
+- [x] 保存 Conversation / Message
+- [x] 保存 AIActionLog
 
 ### 交付物
 
@@ -311,7 +317,9 @@ Home & Polish
 - [x] 创建 migration
 - [x] 创建 seed
 - [x] 封装 db client
-- [ ] 验证数据库连接
+- [x] 验证数据库连接
+- [x] 配置远程 dev PostgreSQL 与 SSH tunnel
+- [x] 在远程 dev 数据库执行 migration 和 seed
 
 ### Day 3：布局
 
@@ -322,34 +330,39 @@ Home & Polish
 
 ### Day 4：Idea API
 
-- [ ] `POST /api/ideas`
-- [ ] `GET /api/ideas`
-- [ ] `GET /api/ideas/:id`
-- [ ] `PATCH /api/ideas/:id`
-- [ ] 基础测试
+- [x] `POST /api/ideas`
+- [x] `GET /api/ideas`
+- [x] `GET /api/ideas/:id`
+- [x] `PATCH /api/ideas/:id`
+- [x] 基础测试
+- [x] 固定 demo user 数据访问封装
 
 ### Day 5：Inbox UI
 
-- [ ] 输入框
-- [ ] Idea 列表
-- [ ] 状态筛选
-- [ ] Idea 详情入口
+- [x] 输入框
+- [x] Idea 列表
+- [x] 状态筛选
+- [x] Idea 详情入口
+- [x] Idea 详情页
 
 ### Day 6：AI Provider
 
-- [ ] 封装 LLM Provider
-- [ ] 标题生成
-- [ ] 摘要生成
-- [ ] 澄清问题生成
-- [ ] AIActionLog 保存
+- [x] 封装 LLM Provider
+- [x] 标题生成
+- [x] 摘要生成
+- [x] 澄清问题生成
+- [x] AIActionLog 保存
+- [x] Conversation / Message 保存
+- [x] `POST /api/ideas/:id/clarify`
 
 ### Day 7：闭环小验收
 
-- [ ] 输入一个想法
-- [ ] 生成标题、摘要、澄清问题
-- [ ] 保存澄清结果
-- [ ] 修复阻塞问题
-- [ ] 更新 README
+- [x] 输入一个想法
+- [x] 生成标题、摘要、澄清问题
+- [x] 保存澄清结果
+- [x] 修复阻塞问题
+- [x] 更新 README
+- [x] 验证 Idea 状态从 `CAPTURED` 变为 `CLARIFIED`
 
 ---
 
@@ -407,22 +420,26 @@ Home & Polish
 
 ## 10. 下一步
 
-Day 2 数据库与 Foundation 补强已完成可离线验证部分，下一步建议进入 Day 4：Idea API。
+第一周内容已完成，并已通过远程 dev PostgreSQL 验证。下一步建议进入第二周 Planning：Project 创建/关联、从 Idea 生成 Task 建议、任务状态管理。
 
-Day 4 优先任务：
+下一批优先任务：
 
-- `POST /api/ideas`
-- `GET /api/ideas`
-- `GET /api/ideas/:id`
-- `PATCH /api/ideas/:id`
-- API 输入验证和基础测试
+- `POST /api/projects`
+- `GET /api/projects`
+- Project 创建 / 编辑 UI
+- Idea 关联 Project
+- AI 生成 Task 建议
+- `POST /api/ideas/:id/tasks/generate`
+- 保存 Task 并支持状态更新
 
-遗留环境事项：
+环境状态：
 
-- 当前机器 Docker Desktop engine 未成功启动，尚未实际运行 PostgreSQL 容器、live migration 或 seed。
-- Docker 可用后需执行 `pnpm db:up`、`pnpm db:migrate -- --name init`、`pnpm db:seed` 完成数据库连接验证。
+- 本地默认部署仍保持 local-first，可继续使用 Docker PostgreSQL。
+- 当前开发临时使用阿里云 ECS 上的远程 dev PostgreSQL。
+- PostgreSQL 仅监听 ECS 本机 `127.0.0.1:5432`，本地通过 SSH tunnel 访问。
+- 开发前需要启动 tunnel：`ssh -i ~/.ssh/echive_aliyun_dev -L 5433:127.0.0.1:5432 root@121.40.165.144`。
 
 实施前需要确认：
 
-- AI Provider 使用哪一家？
-- MVP 是否先跳过认证，使用固定 demo user？
+- 第二周是否继续使用本地规则型 LLM Provider，还是切换到真实模型供应商？
+- Project 和 Task 的 UI 是否先保持单用户 demo user 模式？

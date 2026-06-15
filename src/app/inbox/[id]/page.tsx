@@ -11,6 +11,7 @@ import {
 
 import { AppShell } from "@/components/app-shell";
 import { Badge } from "@/components/ui/badge";
+import { IdeaStatus } from "@/generated/prisma/enums";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -20,7 +21,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { getIdeaById, parseClarificationOutput } from "@/lib/ideas";
+import { listProjects } from "@/lib/projects";
 import { ClarifyButton } from "./clarify-button";
+import { GenerateTasksButton } from "./generate-tasks-button";
+import { ProjectSelector } from "./project-selector";
 
 const statusLabels: Record<string, string> = {
   CAPTURED: "待澄清",
@@ -72,6 +76,7 @@ export default async function IdeaDetailPage({ params }: IdeaDetailPageProps) {
   const latestClarification = parseClarificationOutput(
     idea.aiActionLogs[0]?.output
   );
+  const projects = await listProjects();
 
   return (
     <AppShell>
@@ -83,9 +88,16 @@ export default async function IdeaDetailPage({ params }: IdeaDetailPageProps) {
               返回 Inbox
             </Link>
           </Button>
-          <div className="flex items-start gap-3">
+          <div className="flex flex-wrap items-start justify-end gap-3">
             <Badge variant="secondary">{statusLabels[idea.status]}</Badge>
             <ClarifyButton ideaId={idea.id} />
+            <GenerateTasksButton
+              ideaId={idea.id}
+              canGenerate={
+                idea.status === IdeaStatus.CLARIFIED || idea.status === IdeaStatus.PLANNED
+              }
+              hasExistingTasks={idea.tasks.length > 0}
+            />
           </div>
         </div>
 
@@ -182,19 +194,30 @@ export default async function IdeaDetailPage({ params }: IdeaDetailPageProps) {
                   关联项目
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-4">
                 {idea.project ? (
-                  <div className="rounded-lg bg-slate-100 p-4">
+                  <Link
+                    href={`/projects/${idea.project.id}`}
+                    className="block rounded-lg bg-slate-100 p-4 transition hover:bg-slate-200"
+                  >
                     <p className="font-medium text-slate-950">{idea.project.title}</p>
                     <p className="mt-1 text-xs text-slate-500">
                       {idea.project.status}
                     </p>
-                  </div>
+                  </Link>
                 ) : (
                   <p className="rounded-lg bg-slate-100 p-4 text-sm text-slate-600">
                     尚未关联项目。
                   </p>
                 )}
+                <ProjectSelector
+                  ideaId={idea.id}
+                  currentProjectId={idea.project?.id ?? null}
+                  projects={projects.map((project) => ({
+                    id: project.id,
+                    title: project.title,
+                  }))}
+                />
               </CardContent>
             </Card>
 

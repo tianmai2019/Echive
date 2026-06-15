@@ -144,22 +144,22 @@ MVP 不追求功能完整，而是优先证明：
 
 ### 任务
 
-- [ ] Projects 页面
-- [ ] Project 创建 / 编辑
-- [ ] Project 详情页
-- [ ] Project 聚合 Ideas / Tasks
-- [ ] `POST /api/projects`
-- [ ] `GET /api/projects`
-- [ ] `GET /api/projects/:id`
-- [ ] `PATCH /api/projects/:id`
-- [ ] Idea 关联 Project
-- [ ] AI 生成 Task 建议
-- [ ] `POST /api/ideas/:id/tasks/generate`
-- [ ] 保存 Task
-- [ ] Tasks 页面
-- [ ] Task 状态更新
-- [ ] Task 优先级设置
-- [ ] Today / This Week 视图
+- [x] Projects 页面
+- [x] Project 创建 / 编辑
+- [x] Project 详情页
+- [x] Project 聚合 Ideas / Tasks
+- [x] `POST /api/projects`
+- [x] `GET /api/projects`
+- [x] `GET /api/projects/:id`
+- [x] `PATCH /api/projects/:id`
+- [x] Idea 关联 Project
+- [x] AI 生成 Task 建议
+- [x] `POST /api/ideas/:id/tasks/generate`
+- [x] 保存 Task
+- [x] Tasks 页面
+- [x] Task 状态更新
+- [x] Task 优先级设置
+- [x] Today / This Week 视图
 
 ### 交付物
 

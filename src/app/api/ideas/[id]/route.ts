@@ -1,5 +1,10 @@
 import { errorResponse, successResponse } from "@/lib/api-response";
-import { getIdeaById, isIdeaStatus, updateIdea } from "@/lib/ideas";
+import {
+  IDEA_UPDATE_PROJECT_NOT_FOUND,
+  getIdeaById,
+  isIdeaStatus,
+  updateIdea,
+} from "@/lib/ideas";
 
 interface IdeaRouteContext {
   params: Promise<{ id: string }>;
@@ -66,11 +71,29 @@ export async function PATCH(request: Request, context: IdeaRouteContext) {
     updateData.status = input.status;
   }
 
+  if ("projectId" in input) {
+    if (input.projectId !== null && typeof input.projectId !== "string") {
+      return errorResponse("projectId must be a string or null", { status: 400 });
+    }
+
+    updateData.projectId = input.projectId;
+  }
+
   if (Object.keys(updateData).length === 0) {
     return errorResponse("No supported fields provided", { status: 400 });
   }
 
-  const idea = await updateIdea(id, updateData);
+  let idea: Awaited<ReturnType<typeof updateIdea>>;
+
+  try {
+    idea = await updateIdea(id, updateData);
+  } catch (error) {
+    if (error instanceof Error && error.message === IDEA_UPDATE_PROJECT_NOT_FOUND) {
+      return errorResponse("Project not found", { status: 404 });
+    }
+
+    throw error;
+  }
 
   if (!idea) {
     return errorResponse("Idea not found", { status: 404 });

@@ -138,12 +138,22 @@ pnpm audit --audit-level moderate
 - Conversation / Message / AIActionLog 澄清记录保存
 - Projects / Tasks / Vault / Studio 占位页
 - Day 1 到 Day 7 第一周验证链路
+- Project API：`POST /api/projects`、`GET /api/projects`、`GET /api/projects/:id`、`PATCH /api/projects/:id`
+- Projects 页面、Project 创建表单和 Project 详情页
+- Idea 关联 Project、快速创建并关联 Project
+- 本地规则型 Task Generator，用于从已澄清 Idea 生成 5 个任务建议
+- `POST /api/ideas/:id/tasks/generate`
+- Task 生成写入 `Task`，并保存 `AIActionLog(GENERATE_TASKS)`
+- Tasks API：`GET /api/tasks`、`PATCH /api/tasks/:id`
+- Tasks 页面、状态/优先级/截止日期管理、Today / This Week / Project 筛选
+- Day 8 到 Day 14 第二周 Planning 闭环验收
 
 ## 已知本地环境事项
 
 - 当前开发临时使用阿里云 ECS 上的远程 dev PostgreSQL，通过 SSH tunnel 连接。
 - PostgreSQL 只监听 ECS 本机 `127.0.0.1:5432`，不暴露公网数据库端口。
 - 已完成远程 dev 数据库 migration、seed、Idea 创建、PATCH、澄清闭环验证。
+- 已完成第二周 Planning 验收：Idea → Clarify → Project → Generate Tasks → PLANNED → Task update → Project aggregation。
 - 已完成 Prisma schema validate、单元测试、类型检查、lint 和生产构建验证。
 
 ## 规划文档

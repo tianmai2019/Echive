@@ -7,6 +7,7 @@ import {
   type IdeaStatus as IdeaStatusValue,
 } from "@/generated/prisma/enums";
 import { getIdeaClarifier, type IdeaClarificationResult } from "@/lib/ai/idea-clarifier";
+import { getTaskGenerator } from "@/lib/ai/task-generator";
 import { getDemoUser } from "@/lib/demo-user";
 import { db } from "@/lib/db";
 
@@ -136,11 +137,15 @@ export async function getIdeaById(id: string) {
   });
 }
 
+export const IDEA_UPDATE_PROJECT_NOT_FOUND = "IDEA_UPDATE_PROJECT_NOT_FOUND";
+export const IDEA_TASK_GENERATION_INVALID_STATUS = "IDEA_TASK_GENERATION_INVALID_STATUS";
+
 interface UpdateIdeaInput {
   title?: string;
   summary?: string | null;
   status?: IdeaStatusValue;
   nextAction?: string | null;
+  projectId?: string | null;
 }
 
 export async function updateIdea(id: string, input: UpdateIdeaInput) {
@@ -155,6 +160,20 @@ export async function updateIdea(id: string, input: UpdateIdeaInput) {
 
   if (!existingIdea) {
     return null;
+  }
+
+  if (input.projectId) {
+    const project = await db.project.findFirst({
+      where: {
+        id: input.projectId,
+        userId: user.id,
+      },
+      select: { id: true },
+    });
+
+    if (!project) {
+      throw new Error(IDEA_UPDATE_PROJECT_NOT_FOUND);
+    }
   }
 
   return db.idea.update({
@@ -233,6 +252,75 @@ export async function clarifyIdea(id: string) {
     idea: updatedIdea,
     clarification: result,
   };
+}
+
+export async function generateTasksForIdea(id: string) {
+  const user = await getDemoUser();
+  const idea = await db.idea.findFirst({
+    where: {
+      id,
+      userId: user.id,
+    },
+  });
+
+  if (!idea) {
+    return null;
+  }
+
+  if (idea.status !== IdeaStatus.CLARIFIED && idea.status !== IdeaStatus.PLANNED) {
+    throw new Error(IDEA_TASK_GENERATION_INVALID_STATUS);
+  }
+
+  const generator = getTaskGenerator();
+  const result = await generator.generateTasks({
+    ideaTitle: idea.title,
+    ideaSummary: idea.summary,
+    ideaRawInput: idea.rawInput,
+  });
+  const output = JSON.stringify(result, null, 2);
+
+  const generated = await db.$transaction(
+    async (tx) => {
+      const tasks = await Promise.all(
+        result.tasks.map((task) =>
+          tx.task.create({
+            data: {
+              userId: user.id,
+              projectId: idea.projectId,
+              ideaId: idea.id,
+              title: task.title,
+              description: task.description,
+              priority: task.priority,
+            },
+          })
+        )
+      );
+
+      await tx.aIActionLog.create({
+        data: {
+          userId: user.id,
+          ideaId: idea.id,
+          actionType: AIActionType.GENERATE_TASKS,
+          input: idea.rawInput,
+          output,
+        },
+      });
+
+      const plannedIdea = await tx.idea.update({
+        where: { id: idea.id },
+        data: { status: IdeaStatus.PLANNED },
+      });
+
+      return {
+        idea: plannedIdea,
+        tasks,
+        generation: result,
+      };
+    },
+    { timeout: 20_000 }
+  );
+
+  return generated;
 }
 
 export function parseClarificationOutput(

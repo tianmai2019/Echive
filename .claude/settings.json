@@ -38,7 +38,22 @@
       "PowerShell(git push github main)",
       "PowerShell(git push gitee main)",
       "PowerShell(git ls-remote github refs/heads/main)",
-      "PowerShell(git ls-remote gitee refs/heads/main)"
+      "PowerShell(git ls-remote gitee refs/heads/main)",
+      "Bash(pnpm vitest *)",
+      "Bash(pnpm prisma:validate)",
+      "Bash(ssh -o ExitOnForwardFailure=yes -N -L 5433:127.0.0.1:5432 root@121.40.165.144)",
+      "Bash(nc -z 127.0.0.1 5433)",
+      "Bash(docker run *)",
+      "Bash(docker pull *)",
+      "Bash(pnpm db:migrate)",
+      "Bash(pnpm db:seed)",
+      "Bash(mkdir -p \"src/app/api/drafts/[id]\")",
+      "Bash(mkdir -p \"src/app/studio/[id]\")",
+      "Bash(git add *)"
+    ],
+    "additionalDirectories": [
+      "/Users/xl/codestudy/echive/src/app/api/drafts",
+      "/Users/xl/codestudy/echive/src/app/studio"
     ]
   }
 }

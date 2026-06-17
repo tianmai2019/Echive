@@ -1,162 +1,190 @@
 # Echive
 
-Echive 是一个面向个人创作者与独立开发者的 AI 数字管家，用于将用户的想法转化为可执行计划、任务、素材资产与可发布内容。
+> 面向个人创作者与独立开发者的 AI 数字管家
 
-当前阶段：**第一周 Idea Flow 闭环完成，准备进入 Planning**。
+将你的想法转化为可执行计划、任务、素材资产与可发布内容。
 
-## MVP 闭环
+---
+
+## 📋 目录
+
+- [项目简介](#项目简介)
+- [MVP 核心闭环](#mvp-核心闭环)
+- [技术栈](#技术栈)
+- [当前进度](#当前进度)
+- [快速开始](#快速开始)
+- [📖 新用户指南](#新用户指南)
+- [项目规划](#项目规划)
+- [已完成功能](#已完成功能)
+
+---
+
+## 项目简介
+
+Echive 是一个 local-first 的 AI 生产力工具，帮助个人创作者：
+- 💡 快速捕捉和澄清模糊想法
+- 🎯 将想法拆解为可执行任务
+- 📚 管理和沉淀素材资产
+- ✍️ 基于上下文生成内容草稿
+
+**核心理念：** 让创意从想法到发布的整个流程更流畅、高效。
+
+---
+
+## MVP 核心闭环
 
 ```text
 想法输入 → AI 澄清 → 任务拆解 → 素材沉淀 → 草稿生成
 ```
 
+---
+
 ## 技术栈
 
-- Next.js App Router
-- TypeScript
-- Tailwind CSS
-- shadcn/ui
-- Prisma 7
-- PostgreSQL
-- pnpm
-- Vitest
+| 层级 | 技术选型 |
+|------|---------|
+| Web 框架 | Next.js App Router |
+| 语言 | TypeScript |
+| UI 框架 | Tailwind CSS |
+| 组件库 | shadcn/ui |
+| ORM | Prisma |
+| 数据库 | PostgreSQL |
+| 包管理器 | pnpm |
+| 测试框架 | Vitest |
 
-## 数据库部署原则
+---
 
-Echive 是 local-first 产品：默认部署方式是应用和数据库都运行在用户自己的设备上。远程数据库只用于开发者个人跨设备开发，不作为产品默认架构，也不要求公网域名。
+## 当前进度
 
-## 本地开发
+**阶段：MVP 核心模块全部完成，进入 Home & Polish 阶段**
 
-### 1. 安装依赖
+```mermaid
+graph LR
+    A[Foundation] --> B[Idea Flow]
+    B --> C[Planning]
+    C --> D[Vault]
+    D --> E[Studio]
+    E --> F[Home & Polish]
+    
+    style A fill:#4CAF50,color:white
+    style B fill:#4CAF50,color:white
+    style C fill:#4CAF50,color:white
+    style D fill:#4CAF50,color:white
+    style E fill:#4CAF50,color:white
+    style F fill:#FFC107,color:black
+```
+
+✅ **已完成：** Foundation → Idea Flow → Planning → Vault → Studio  
+🔄 **进行中：** Home & Polish
+
+---
+
+## 快速开始
+
+### 开发者
+
+完整的开发环境配置请查看：
+
+👉 **[开发环境配置指南](SETUP.md)**
+
+**快速启动 TL;DR:**
 
 ```bash
+# 1. 启动 SSH 隧道（保持终端打开）
+ssh -N aliyun-dev
+
+# 2. 新开终端，安装依赖并启动
 pnpm install
-```
-
-### 2. 配置环境变量
-
-复制 `.env.example` 为 `.env`，并按需修改本地数据库连接：
-
-```bash
-cp .env.example .env
-```
-
-Windows PowerShell：
-
-```powershell
-Copy-Item .env.example .env
-```
-
-### 3. 启动本地 PostgreSQL
-
-需要 Docker Desktop 可用：
-
-```bash
-pnpm db:up
-```
-
-### 4. 生成 Prisma Client
-
-```bash
-pnpm prisma:generate
-```
-
-### 5. 执行数据库迁移和 seed
-
-```bash
-pnpm db:migrate -- --name init
-pnpm db:seed
-```
-
-### 6. 启动开发服务器
-
-```bash
 pnpm dev
 ```
 
-打开 http://localhost:3000。
+打开 http://localhost:3000 即可查看项目。
 
-## 个人远程开发数据库
+---
 
-当需要跨设备开发，但当前设备无法运行本地 PostgreSQL 时，可以临时使用阿里云 ECS 或 RDS 上的开发数据库。该数据库只用于个人开发，不能和生产数据或用户本地数据混用。
+## 📖 新用户指南
 
-推荐连接方式是 SSH tunnel，而不是把 PostgreSQL 端口直接暴露到公网：
+👉 **[点击查看完整新用户使用指南](USER_GUIDE.md)**
 
-```bash
-ssh -L 5433:127.0.0.1:5432 user@your-server-ip
-```
+新用户指南包含：
+- 30 秒快速上手
+- 核心工作流详解
+- 6 大模块功能介绍
+- 完整创作流程演示
+- 常见问题解答
+- 效率提升技巧
 
-然后在本机 `.env` 中把 `DATABASE_URL` 临时改为 tunnel 地址：
+---
 
-```env
-DATABASE_URL="postgresql://echive_dev:change_me@127.0.0.1:5433/echive_dev_remote?schema=public"
-```
+## 项目规划
 
-之后照常执行 Prisma 命令，迁移会作用到远程开发数据库：
+详细的项目规划文档位于 `plan/` 目录：
 
-```bash
-pnpm prisma:generate
-pnpm db:migrate
-pnpm db:seed
-```
+- [MVP 执行计划](plan/Echive%20MVP%20%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92.md) - 整体里程碑规划
+- [第二周 Planning 执行计划](plan/Echive%20第二周%20Planning%20执行计划.md) - Planning 阶段详细安排
 
-远程开发库约束：
+PRD 文档：
+- [Echive PRD v0](projectStart/Echive%20PRD%20v0.md)
 
-- 数据库名建议使用 `echive_dev_remote`，明确区别于本地默认库。
-- 不开放 `0.0.0.0:5432` 给公网；如必须直连，只允许固定 IP 白名单。
-- 不存放真实隐私数据；需要调试时使用假数据或脱敏数据。
-- 定期备份，且可以随时销毁重建。
+---
 
-## 常用命令
+## 已完成功能
 
-```bash
-pnpm lint
-pnpm typecheck
-pnpm test
-pnpm prisma:validate
-pnpm build
-pnpm check
-pnpm audit --audit-level moderate
-```
-
-## 当前已完成
-
+### Foundation ✅
 - Next.js + TypeScript + Tailwind 初始化
 - shadcn/ui 基础组件
 - Prisma 第二版 Schema 落地
-- Prisma Client 生成配置
 - Docker Compose PostgreSQL 配置
-- 初始 Prisma migration SQL
-- Seed 脚本
-- 统一 API response helper 和单元测试
-- App Shell 和主导航
-- Home 页面 Foundation 占位
-- Inbox Quick Capture、Idea 列表、状态筛选和详情页
-- `POST /api/ideas`、`GET /api/ideas`、`GET /api/ideas/:id`、`PATCH /api/ideas/:id`
-- 本地规则型 LLM Provider，用于第一周标题、摘要、澄清问题和 nextAction 生成
-- `POST /api/ideas/:id/clarify`
+- 初始 Prisma migration 和 Seed 脚本
+- 统一 API response helper
+- App Shell 和左侧主导航
+
+### Idea Flow ✅
+- Inbox 页面与 Quick Capture
+- Idea 列表、状态筛选、详情页
+- Idea API：创建、查询、更新
+- 本地规则型 LLM Provider（标题、摘要、澄清问题、nextAction）
+- `POST /api/ideas/:id/clarify` 澄清接口
 - Conversation / Message / AIActionLog 澄清记录保存
-- Projects / Tasks / Vault / Studio 占位页
-- Day 1 到 Day 7 第一周验证链路
-- Project API：`POST /api/projects`、`GET /api/projects`、`GET /api/projects/:id`、`PATCH /api/projects/:id`
-- Projects 页面、Project 创建表单和 Project 详情页
-- Idea 关联 Project、快速创建并关联 Project
-- 本地规则型 Task Generator，用于从已澄清 Idea 生成 5 个任务建议
-- `POST /api/ideas/:id/tasks/generate`
-- Task 生成写入 `Task`，并保存 `AIActionLog(GENERATE_TASKS)`
-- Tasks API：`GET /api/tasks`、`PATCH /api/tasks/:id`
-- Tasks 页面、状态/优先级/截止日期管理、Today / This Week / Project 筛选
-- Day 8 到 Day 14 第二周 Planning 闭环验收
+- Idea 状态流转：CAPTURED → CLARIFIED
+
+### Planning ✅
+- Project API：创建、查询、更新
+- Projects 列表、创建表单、详情页
+- Project 聚合展示 Ideas / Tasks
+- Idea 关联 Project、快速创建并关联
+- 本地规则型 Task Generator（从 Idea 生成 5 个任务建议）
+- `POST /api/ideas/:id/tasks/generate` 生成接口
+- Tasks API：查询、更新状态/优先级
+- Tasks 页面、Today / This Week / Project 筛选
+- Idea 状态推进到 PLANNED
+
+### Vault ✅
+- Material API：创建、查询、更新
+- Material 列表、状态切换
+- 素材关联 Idea / Project
+- 标签系统轻量版
+
+### Studio ✅
+- Draft API：生成、查询、更新
+- Draft 生成面板
+- 选择来源 Idea 和关联 Materials
+- 支持多种输出格式
+- AI 生成 outline/content
+- Draft 编辑区
+- DraftMaterial 关联保存
+
+---
 
 ## 已知本地环境事项
 
-- 当前开发临时使用阿里云 ECS 上的远程 dev PostgreSQL，通过 SSH tunnel 连接。
-- PostgreSQL 只监听 ECS 本机 `127.0.0.1:5432`，不暴露公网数据库端口。
-- 已完成远程 dev 数据库 migration、seed、Idea 创建、PATCH、澄清闭环验证。
-- 已完成第二周 Planning 验收：Idea → Clarify → Project → Generate Tasks → PLANNED → Task update → Project aggregation。
-- 已完成 Prisma schema validate、单元测试、类型检查、lint 和生产构建验证。
+- 当前开发临时使用阿里云 ECS 上的远程 dev PostgreSQL，通过 SSH tunnel 连接
+- PostgreSQL 只监听 ECS 本机 `127.0.0.1:5432`，不暴露公网数据库端口
+- 已完成所有核心模块的端到端验证
+- 所有质量检查已通过：lint、typecheck、test、prisma:validate、build
 
-## 规划文档
+---
 
-- [PRD](projectStart/Echive%20PRD%20v0.md)
-- [MVP 执行计划](plan/Echive%20MVP%20%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92.md)
+## 许可证
+
+MIT

@@ -10,6 +10,7 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/sonner";
 
 const navigationItems = [
   { href: "/", label: "Home", icon: Home },
@@ -59,11 +60,11 @@ export function AppShell({ children }: AppShellProps) {
           </nav>
 
           <div className="rounded-3xl bg-white/10 p-4">
-            <Badge variant="secondary" className="bg-amber-200 text-slate-950">
-              MVP Day 1
+            <Badge variant="secondary" className="bg-emerald-400 text-slate-950">
+              MVP 已完成 5/6
             </Badge>
             <p className="mt-3 text-sm leading-6 text-slate-300">
-              当前聚焦 Foundation：项目脚手架、Prisma Schema、基础 UI 与验证链路。
+              所有核心模块已完成：Foundation → Idea Flow → Planning → Vault → Studio。
             </p>
           </div>
         </aside>
@@ -78,6 +79,7 @@ export function AppShell({ children }: AppShellProps) {
             </Button>
           </header>
           {children}
+          <Toaster richColors closeButton position="top-right" />
         </main>
       </div>
     </div>

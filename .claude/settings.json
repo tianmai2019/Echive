@@ -49,11 +49,37 @@
       "Bash(pnpm db:seed)",
       "Bash(mkdir -p \"src/app/api/drafts/[id]\")",
       "Bash(mkdir -p \"src/app/studio/[id]\")",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit -m 'feat: add toast notifications and update home page layout *)",
+      "Bash(git push *)",
+      "Bash(Select-Object -First 30)",
+      "PowerShell(pnpm typecheck 2>&1)",
+      "PowerShell(pnpm lint 2>&1)",
+      "PowerShell(pnpm test 2>&1)",
+      "PowerShell(pnpm test src/lib/projects.test.ts 2>&1)",
+      "PowerShell(Test-NetConnection -ComputerName 127.0.0.1 -Port 5433 -InformationLevel Quiet)",
+      "Bash(nc -zv 127.0.0.1 5433)",
+      "PowerShell(Get-Job -Name \"SSH-Tunnel-Echive\")",
+      "PowerShell(Receive-Job)",
+      "PowerShell(ssh -o BatchMode=yes -o ConnectTimeout=5 aliyun-dev \"echo Connected\" 2>&1)",
+      "Bash(ssh -o ExitOnForwardFailure=yes -N -L 5433:127.0.0.1:5432 aliyun-dev)",
+      "Bash(timeout 5 bash -c 'cat < /dev/null > /dev/tcp/127.0.0.1/5433 && echo \"Tunnel connected\" || echo \"Tunnel failed\"')",
+      "PowerShell(pnpm test src/lib/tasks.test.ts 2>&1)",
+      "PowerShell(pnpm test src/lib/ideas-planning.test.ts 2>&1)",
+      "PowerShell(pnpm test src/app/api/projects 2>&1)",
+      "PowerShell(pnpm test src/app/api/tasks 2>&1)",
+      "PowerShell(pnpm test src/app/api/ideas/[id]/tasks/generate 2>&1)",
+      "PowerShell($line = Select-String -Path '.env.local' -Pattern '^DATABASE_URL=' | Select-Object -First 1; $raw = $line.Line.Substring\\('DATABASE_URL='.Length\\).Trim\\(\\).Trim\\('\"'\\); $afterScheme = $raw -replace '^postgres\\(?:ql\\)?://',''; $atIndex = $afterScheme.LastIndexOf\\('@'\\); $creds = $afterScheme.Substring\\(0,$atIndex\\); $hostDb = $afterScheme.Substring\\($atIndex+1\\); $colonIndex = $creds.IndexOf\\(':'\\); $user = $creds.Substring\\(0,$colonIndex\\); $password = $creds.Substring\\($colonIndex+1\\); $hostPart = \\($hostDb -split '/',2\\)[0]; $dbPart = \\(\\($hostDb -split '/',2\\)[1] -split '\\\\?',2\\)[0]; \"user=$user hostPort=$hostPart database=$dbPart passwordLength=$\\($password.Length\\) passwordHasRawAt=$\\($password.Contains\\('@'\\)\\) passwordHasEncodedAt=$\\($password.Contains\\('%40'\\)\\)\")",
+      "PowerShell($files = @\\('.env.local', '.env'\\); foreach \\($file in $files\\) { $line = Select-String -Path $file -Pattern '^DATABASE_URL=' | Select-Object -First 1; $raw = $line.Line.Substring\\('DATABASE_URL='.Length\\).Trim\\(\\).Trim\\('\"'\\); $afterScheme = $raw -replace '^postgres\\(?:ql\\)?://',''; $atIndex = $afterScheme.LastIndexOf\\('@'\\); $creds = $afterScheme.Substring\\(0,$atIndex\\); $hostDb = $afterScheme.Substring\\($atIndex+1\\); $colonIndex = $creds.IndexOf\\(':'\\); $user = $creds.Substring\\(0,$colonIndex\\); $password = $creds.Substring\\($colonIndex+1\\); $hostPart = \\($hostDb -split '/',2\\)[0]; $dbPart = \\(\\($hostDb -split '/',2\\)[1] -split '\\\\?',2\\)[0]; \"${file}: user=$user hostPort=$hostPart database=$dbPart rawAt=$\\($password.Contains\\('@'\\)\\) encodedAt=$\\($password.Contains\\('%40'\\)\\) passLen=$\\($password.Length\\)\" })",
+      "PowerShell(pnpm prisma migrate status)",
+      "PowerShell(Test-NetConnection -ComputerName 127.0.0.1 -Port 5433)",
+      "Bash(Get-ChildItem -Path \"d:\\\\myTools\\\\Echive\" -Directory)",
+      "Bash(Select-Object -First 20 Name)"
     ],
     "additionalDirectories": [
       "/Users/xl/codestudy/echive/src/app/api/drafts",
-      "/Users/xl/codestudy/echive/src/app/studio"
+      "/Users/xl/codestudy/echive/src/app/studio",
+      "C:\\Users\\xinxiang.zhang\\.ssh"
     ]
   }
 }
